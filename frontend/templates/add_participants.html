@@ -1,0 +1,9 @@
+<h2>Add Participants to Tournament: {{ tournament['tname'] }}</h2>
+<form method="POST">
+    {% for player in players %}
+        <input type="checkbox" name="players" value="{{ player['id'] }}">
+        {{ player['username'] }}<br>
+    {% endfor %}
+    <button type="submit">Add Participants</button>
+</form>
+<a href="/host_dashboard">Back to Dashboard</a>

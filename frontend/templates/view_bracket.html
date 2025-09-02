@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bracket View</title>
+</head>
+<body>
+<h2>Bracket View</h2>
+<a href="/host_dashboard">Back to Dashboard</a>
+<br><br>
+
+{% for round_no, matches in rounds.items() %}
+    <h3>Round {{ round_no }}</h3>
+    <ul>
+        {% for match in matches %}
+            <li>
+                {{ match.player1 or 'BYE' }} vs {{ match.player2 or 'BYE' }}
+                {% if match.winner_id %}
+                    - Winner: {{ match.winner_id }}
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endfor %}
+
+</body>
+</html>

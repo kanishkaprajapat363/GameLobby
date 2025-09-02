@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Tournament</title>
+</head>
+<body>
+    <h2>Create Tournament</h2>
+    <form method="POST">
+        <label>Tournament Name:</label><br>
+        <input type="text" name="tname" required><br><br>
+
+        <label>Game Type:</label><br>
+        <select name="game_type" required>
+            <option value="singleplayer">Single Player</option>
+            <option value="multiplayer">Multi Player</option>
+        </select><br><br>
+
+        <label>Format:</label><br>
+        <select name="format_type" required>
+            <option value="single_elimination">Single Elimination</option>
+            <option value="double_elimination">Double Elimination</option>
+            <option value="knockout">Knockout</option>
+            <option value="swiss">Swiss</option>
+        </select><br><br>
+
+        <label>Tournament Date:</label><br>
+        <input type="date" name="t_date" required><br><br>
+
+        <button type="submit">Create Tournament</button>
+    </form>
+
+    <br>
+    <a href="/host_dashboard">Back to Dashboard</a>
+</body>
+</html>

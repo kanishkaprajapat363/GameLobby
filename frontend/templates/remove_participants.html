@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Remove Participants - {{ tournament.tname }}</title>
+</head>
+<body>
+
+<h2>Remove Participants from: {{ tournament.tname }}</h2>
+<a href="/host_dashboard">Back to Dashboard</a>
+<br><br>
+
+<form method="POST">
+    {% for p in participants %}
+        <input type="checkbox" name="participants" value="{{ p.id }}"> {{ p.username }} <br>
+    {% endfor %}
+    <br>
+    <input type="submit" value="Remove Selected Participants">
+</form>
+
+</body>
+</html>
