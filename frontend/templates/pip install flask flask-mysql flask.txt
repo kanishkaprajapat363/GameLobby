@@ -1,0 +1,13 @@
+pip install flask flask-mysql flask-bcrypt flask-session
+
+cd gamelobby
+
+python app.py
+
+Instead of visiting /, go directly to:
+
+Signup page:
+http://127.0.0.1:5000/signup
+
+Login page:
+http://127.0.0.1:5000/login

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Bracket View</title>
+    <style>
+        :root {
+            --neon-yellow: #ffcc00;
+            --neon-cyan: #00ffff;
+            --dark-bg: #121212;
+            --card-bg: #1e1e2a;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: linear-gradient(135deg, #121212, #1a1a2f);
+            color: #f1f1f1;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h2 {
+            color: var(--neon-yellow);
+            font-family: 'Orbitron', sans-serif;
+            text-shadow: 0 0 10px var(--neon-yellow), 0 0 20px var(--neon-cyan);
+            margin-bottom: 30px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin: 20px 0;
+            padding: 10px 20px;
+            background: var(--neon-cyan);
+            color: #121212;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .back-link:hover {
+            background: var(--neon-yellow);
+            color: #121212;
+            box-shadow: 0 0 15px var(--neon-yellow), 0 0 25px var(--neon-cyan);
+        }
+
+        .round-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .round {
+            display: inline-block;
+            vertical-align: top;
+            padding: 20px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            min-width: 240px;
+            box-shadow: 0 0 20px var(--neon-yellow), 0 0 35px var(--neon-cyan);
+            transition: transform 0.3s;
+        }
+
+        .round:hover {
+            transform: scale(1.03);
+        }
+
+        .round h3 {
+            color: var(--neon-yellow);
+            text-shadow: 0 0 5px var(--neon-yellow);
+            margin-bottom: 15px;
+        }
+
+        .match {
+            margin: 15px 0;
+            padding: 12px;
+            border-radius: 10px;
+            background: #262640;
+            border: 1px solid #444;
+            box-shadow: 0 0 5px var(--neon-cyan);
+            transition: 0.2s;
+        }
+
+        .match span {
+            display: block;
+            margin: 6px 0;
+        }
+
+        .winner {
+            color: #4caf50;
+            font-weight: bold;
+            text-shadow: 0 0 5px #4caf50;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, var(--neon-yellow), var(--neon-cyan));
+            border: none;
+            padding: 8px 14px;
+            margin: 4px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            color: #121212;
+            transition: transform 0.2s, box-shadow 0.3s;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px var(--neon-yellow), 0 0 25px var(--neon-cyan);
+        }
+
+        .advance-btn {
+            margin-top: 25px;
+            padding: 12px 24px;
+            font-size: 16px;
+        }
+
+        .advance-btn[disabled] {
+            background: #444 !important;
+            cursor: not-allowed;
+            color: #999;
+            box-shadow: none;
+        }
+
+        form {
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Bracket View: {{ tournament['tname'] }}</h2>
+
+<a class="back-link" href="/host_dashboard">⬅ Back to Dashboard</a>
+
+<div class="round-container">
+    {% set all_completed = True %}
+    {% for round_no, matches in rounds.items() %}
+        <div class="round">
+            <h3>Round {{ round_no }}</h3>
+            {% for match in matches %}
+                <div class="match">
+                    <span>{{ match.player1 or 'BYE' }} vs {{ match.player2 or 'BYE' }}</span>
+
+                    {% if match.winner %}
+                        <span class="winner">✅ Winner: {{ match.winner }}</span>
+                    {% elif match.player2 %}
+                        <!-- Winner selection buttons -->
+                        <form method="POST" action="/set_winner/{{ match.mid }}">
+                            <button class="btn" type="submit" name="winner_id" value="{{ match.player1_id }}">
+                                {{ match.player1 }}
+                            </button>
+                            <button class="btn" type="submit" name="winner_id" value="{{ match.player2_id }}">
+                                {{ match.player2 }}
+                            </button>
+                        </form>
+                        {% set all_completed = False %}
+                    {% else %}
+                        <span class="winner">✅ {{ match.player1 or match.player2 }} advances (BYE)</span>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    {% endfor %}
+</div>
+
+<!-- Advance round button -->
+<form method="POST" action="/advance_round/{{ tournament['tid'] }}">
+    <button class="btn advance-btn" type="submit" {% if not all_completed %}disabled{% endif %}>
+        ➡ Advance to Next Round
+    </button>
+</form>
+
+</body>
+</html>
