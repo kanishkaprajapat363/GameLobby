@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upcoming Tournaments</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Roboto&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #0a0a0a;
+            color: #f0f0f0;
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        h2 {
+            font-family: 'Orbitron', sans-serif;
+            color: #ffcc00;
+            text-align: center;
+            margin-bottom: 30px;
+            text-shadow: 0px 0px 8px rgba(255, 204, 0, 0.7);
+        }
+
+        a.back {
+            display: inline-block;
+            background: #121212;
+            color: #00ccff;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            box-shadow: 0px 0px 10px rgba(0, 204, 255, 0.4);
+            transition: all 0.3s ease;
+            margin-bottom: 25px;
+        }
+
+        a.back:hover {
+            background: #00ccff;
+            color: #121212;
+            box-shadow: 0px 0px 18px rgba(0, 255, 234, 0.8);
+            transform: translateY(-3px);
+        }
+
+        .tournament-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .tournament-card {
+            background: linear-gradient(145deg, #1a1a1a, #222);
+            padding: 20px;
+            border-radius: 14px;
+            box-shadow: 0px 0px 20px rgba(0, 204, 255, 0.3);
+            transition: 0.3s ease-in-out;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        .tournament-card:hover {
+            transform: translateY(-6px) scale(1.03);
+            box-shadow: 0px 0px 28px rgba(0, 255, 234, 0.6);
+        }
+
+        .tournament-card strong {
+            font-size: 20px;
+            color: #ffcc00;
+            display: block;
+            margin-bottom: 10px;
+            text-shadow: 0px 0px 6px rgba(255, 204, 0, 0.6);
+        }
+
+        .tournament-info {
+            font-size: 14px;
+            margin-bottom: 15px;
+            color: #ccc;
+            line-height: 1.6;
+        }
+
+        button {
+            background: #00ccff;
+            color: #121212;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s ease;
+            box-shadow: 0px 0px 10px rgba(0, 204, 255, 0.5);
+        }
+
+        button:hover {
+            background: #00ffea;
+            transform: scale(1.05);
+            box-shadow: 0px 0px 15px rgba(0, 255, 234, 0.8);
+        }
+
+        .registered {
+            color: #00ffea;
+            font-weight: bold;
+            text-shadow: 0px 0px 6px rgba(0, 255, 234, 0.6);
+        }
+
+        .empty {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 18px;
+            color: #aaa;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+<h2>Upcoming Tournaments</h2>
+<a href="/player_dashboard" class="back">⬅ Back to Dashboard</a>
+
+{% if tournaments %}
+<div class="tournament-list">
+    {% for t in tournaments %}
+    <div class="tournament-card">
+        <strong>{{ t.tname }}</strong>
+        <div class="tournament-info">
+            🎮 {{ t.game_type }} <br>
+            ⚔️ {{ t.game_format }} <br>
+            📅 Date: {{ t.t_date }}
+        </div>
+        {% if not t.registered %}
+            <form method="POST" action="/register_tournament/{{ t.tid }}">
+                <button type="submit">Register</button>
+            </form>
+        {% else %}
+            <div class="registered">✅ Already Registered</div>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+    <p class="empty">🚫 No upcoming tournaments available.</p>
+{% endif %}
+
+</body>
+</html>

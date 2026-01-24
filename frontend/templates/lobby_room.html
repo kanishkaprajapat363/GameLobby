@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ lobby.game_name }} – Lobby</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Roboto&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            background: #0a0a0f;
+            color: #f1f1f1;
+            text-align: center;
+            padding: 40px;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            color: #ffcc00;
+        }
+
+        .lobby-card {
+            background: #1a1a2e;
+            width: 60%;
+            margin: auto;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0px 0px 25px rgba(0, 255, 230, 0.4);
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        .player-list {
+            margin-top: 20px;
+            text-align: left;
+            background: #0f0f1a;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 350px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .player-list p {
+            padding: 6px;
+            border-bottom: 1px solid #333;
+        }
+
+        .timer {
+            font-size: 2.2rem;
+            margin-top: 25px;
+            font-family: 'Orbitron', sans-serif;
+            color: #00ffea;
+            text-shadow: 0px 0px 15px #00ffee;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { text-shadow: 0 0 10px #00ffee; }
+            50% { text-shadow: 0 0 20px #00ffee; }
+            100% { text-shadow: 0 0 10px #00ffee; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 12px 20px;
+            background: #121212;
+            color: #00ccff;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            box-shadow: 0px 0px 12px rgba(0, 204, 255, 0.5);
+        }
+
+        .back:hover {
+            background: #00ccff;
+            color: #121212;
+        }
+    </style>
+</head>
+
+<body>
+
+<h2>🎮 {{ lobby.game_name }} – Lobby</h2>
+
+<div class="lobby-card">
+
+    <h3>Lobby Details</h3>
+    <p><strong>Game Type:</strong> {{ lobby.game_type }}</p>
+    <p><strong>Players:</strong> {{ players|length }} / {{ lobby.max_players }}</p>
+    <p><strong>Status:</strong> {{ lobby.status }}</p>
+
+    <h3>Players Joined</h3>
+
+    <div class="player-list">
+        {% for p in players %}
+            <p>👤 {{ p.username }}</p>
+        {% endfor %}
+    </div>
+
+    {% if players|length < lobby.max_players %}
+        <div class="timer">Waiting for more players…</div>
+    {% else %}
+        <div class="timer">
+            Game starts in: <span id="countdown">15</span> seconds
+        </div>
+
+        <script>
+    		let timeLeft = 15;
+    		let timer = setInterval(() => {
+        		timeLeft--;
+        		document.getElementById("countdown").innerText = timeLeft;
+
+        		if (timeLeft <= 0) {
+            			clearInterval(timer);
+            			window.location.href = "/tictactoe/{{ lobby.lid }}";
+
+
+        		}
+    		}, 1000);
+	</script>
+
+    {% endif %}
+
+</div>
+
+<a href="/active_lobbies" class="back">⬅ Leave Lobby</a>
+
+</body>
+</html>

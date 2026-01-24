@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tic Tac Toe</title>
+    <style>
+        body {
+            background:#0a0a0f;
+            color:white;
+            text-align:center;
+            font-family:Arial;
+        }
+        .board {
+            display:grid;
+            grid-template-columns: repeat(3,100px);
+            gap:10px;
+            justify-content:center;
+            margin-top:30px;
+        }
+        .cell {
+            width:100px;
+            height:100px;
+            background:#1a1a2e;
+            font-size:3rem;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            cursor:pointer;
+        }
+    </style>
+</head>
+<body>
+
+<h2>🎮 Tic Tac Toe</h2>
+<p>Player: {{ username }}</p>
+
+<div class="board" id="board"></div>
+
+<script>
+let board = Array(9).fill("");
+let currentPlayer = "X";
+
+const boardDiv = document.getElementById("board");
+
+board.forEach((_, i) => {
+    const cell = document.createElement("div");
+    cell.className = "cell";
+    cell.onclick = () => makeMove(i, cell);
+    boardDiv.appendChild(cell);
+});
+
+function makeMove(index, cell) {
+    if (board[index] !== "") return;
+
+    board[index] = currentPlayer;
+    cell.innerText = currentPlayer;
+
+    if (checkWinner()) {
+        alert(currentPlayer + " wins!");
+        submitResult(currentPlayer);
+    }
+
+    currentPlayer = currentPlayer === "X" ? "O" : "X";
+}
+
+function checkWinner() {
+    const wins = [
+        [0,1,2],[3,4,5],[6,7,8],
+        [0,3,6],[1,4,7],[2,5,8],
+        [0,4,8],[2,4,6]
+    ];
+    return wins.some(w => w.every(i => board[i] === currentPlayer));
+}
+
+function submitResult(winner) {
+    fetch("/submit_tictactoe_result", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            lid: {{ lid }},
+            winner: winner
+        })
+    }).then(() => {
+        alert("Game Over! Winner: " + winner);
+        window.location.href = "/active_lobbies";
+    });
+}
+
+</script>
+
+</body>
+</html>
