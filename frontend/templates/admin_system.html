@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>System Health</title>
+<style>
+    body {
+        background:#0a0a0f;
+        color:white;
+        font-family:Rajdhani;
+        padding:40px;
+    }
+    h1 {
+        font-family:Orbitron;
+        color:#00ffff;
+        margin-bottom:30px;
+    }
+    .grid {
+        display:grid;
+        grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+        gap:25px;
+    }
+    .card {
+        background:#16213e;
+        border-radius:15px;
+        padding:30px;
+        text-align:center;
+        border:1px solid rgba(0,255,255,0.3);
+    }
+    .icon {
+        font-size:48px;
+        margin-bottom:10px;
+    }
+    .num {
+        font-size:32px;
+        color:#39ff14;
+        font-family:Orbitron;
+    }
+    a {
+        color:#00ffff;
+        display:inline-block;
+        margin-top:40px;
+        text-decoration:none;
+        font-size:18px;
+    }
+</style>
+</head>
+<body>
+
+<h1>⚡ System Health</h1>
+
+<div class="grid">
+    <div class="card">
+        <div class="icon">🟢</div>
+        <div class="num">ONLINE</div>
+        <p>Server Status</p>
+    </div>
+
+    <div class="card">
+        <div class="icon">⏱</div>
+        <div class="num">99.8%</div>
+        <p>Uptime</p>
+    </div>
+
+    <div class="card">
+        <div class="icon">🚨</div>
+        <div class="num">0.02%</div>
+        <p>Error Rate</p>
+    </div>
+</div>
+
+<a href="/admin_dashboard">← Back to Dashboard</a>
+
+</body>
+</html>

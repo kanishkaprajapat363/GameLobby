@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>User Statistics</title>
+<style>
+    body {
+        background:#0a0a0f;
+        color:white;
+        font-family:Rajdhani,sans-serif;
+        padding:40px;
+    }
+    h1 {
+        font-family:Orbitron;
+        color:#00ffff;
+        margin-bottom:30px;
+    }
+    .grid {
+        display:grid;
+        grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+        gap:25px;
+    }
+    .card {
+        background:#16213e;
+        border-radius:15px;
+        padding:30px;
+        text-align:center;
+    }
+    .icon { font-size:48px; }
+    .num {
+        font-size:36px;
+        color:#39ff14;
+        font-family:Orbitron;
+    }
+    a { color:#00ffff; text-decoration:none; display:inline-block; margin-top:30px; }
+</style>
+</head>
+<body>
+
+<h1>👥 User Statistics</h1>
+
+<div class="grid">
+    <div class="card">
+        <div class="icon">👤</div>
+        <div class="num">{{ players }}</div>
+        <p>Total Players</p>
+    </div>
+
+    <div class="card">
+        <div class="icon">🧑‍💼</div>
+        <div class="num">{{ hosts }}</div>
+        <p>Total Hosts</p>
+    </div>
+
+    <div class="card">
+        <div class="icon">👥</div>
+        <div class="num">{{ players + hosts }}</div>
+        <p>Total Users</p>
+    </div>
+</div>
+
+<a href="/admin_dashboard">← Back to Dashboard</a>
+
+</body>
+</html>

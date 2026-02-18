@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&display=swap');
+
+        :root {
+            --neon-cyan: #00ffff;
+            --neon-green: #39ff14;
+            --dark-bg: #0a0a0f;
+            --accent-bg: #16213e;
+            --text-secondary: #b0b0b0;
+            --gradient-primary: linear-gradient(135deg, #667eea, #764ba2);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background: var(--dark-bg);
+            font-family: 'Rajdhani', sans-serif;
+            color: white;
+        }
+
+        .nav-header {
+            border-bottom: 2px solid var(--neon-cyan);
+            padding: 15px;
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: Orbitron;
+            font-size: 28px;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
+            gap: 25px;
+        }
+
+        .flip-card {
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .flip-inner {
+            height: 160px;
+            transition: transform 0.7s;
+            transform-style: preserve-3d;
+            position: relative;
+        }
+
+        .flip-card.flipped .flip-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-front,
+        .flip-back {
+            position: absolute;
+            inset: 0;
+            background: var(--accent-bg);
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            backface-visibility: hidden;
+        }
+
+        .flip-back {
+            transform: rotateY(180deg);
+        }
+
+        .stat-icon { font-size: 46px; }
+        .stat-number {
+            font-family: Orbitron;
+            font-size: 34px;
+            color: var(--neon-green);
+        }
+        .stat-label {
+            color: var(--text-secondary);
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="nav-header">
+    <div class="nav-content">
+        <div class="logo">TOURNAMENT HUB</div>
+        <a href="/logout">Logout</a>
+    </div>
+</div>
+
+<div class="container">
+
+    <h2 style="margin-bottom:20px;">Welcome, {{ username }}</h2>
+
+    <div class="stats-grid">
+
+        <!-- USERS -->
+        <div class="flip-card"
+             onclick="flip(this)"
+             ondblclick="openUsers()">
+            <div class="flip-inner">
+                <div class="flip-front">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-label">Total Users</div>
+                </div>
+                <div class="flip-back">
+                    <div class="stat-number">{{ total_users }}</div>
+                    <div class="stat-label">Registered Users</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TOURNAMENTS -->
+        <div class="flip-card"
+             onclick="flip(this)"
+             ondblclick="openTournaments()">
+            <div class="flip-inner">
+                <div class="flip-front">
+                    <div class="stat-icon">🏆</div>
+                    <div class="stat-label">Tournaments</div>
+                </div>
+                <div class="flip-back">
+                    <div class="stat-number">{{ total_tournaments }}</div>
+                    <div class="stat-label">Registered</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MATCHES -->
+        <div class="flip-card"
+             onclick="flip(this)"
+             ondblclick="openMatches()">
+            <div class="flip-inner">
+                <div class="flip-front">
+                    <div class="stat-icon">📊</div>
+                    <div class="stat-label">Matches</div>
+                </div>
+                <div class="flip-back">
+                    <div class="stat-number">{{ total_matches }}</div>
+                    <div class="stat-label">Played</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SYSTEM -->
+        <div class="flip-card"
+             onclick="flip(this)"
+             ondblclick="openSystem()">
+            <div class="flip-inner">
+                <div class="flip-front">
+                    <div class="stat-icon">⚡</div>
+                    <div class="stat-label">System</div>
+                </div>
+                <div class="flip-back">
+                    <div class="stat-number">99.8%</div>
+                    <div class="stat-label">Uptime</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    function flip(card) {
+        card.classList.toggle('flipped');
+    }
+
+    function openUsers() { window.location.href = "/admin/users"; }
+    function openTournaments() { window.location.href = "/admin/tournaments"; }
+    function openMatches() { window.location.href = "/admin/matches"; }
+    function openSystem() { window.location.href = "/admin/system"; }
+</script>
+
+</body>
+</html>

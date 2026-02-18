@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remove Participants - {{ tournament.tname }}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-yellow: #ffcc00;
+            --neon-cyan: #00ffff;
+            --dark-bg: #121212;
+            --card-bg: rgba(26, 26, 46, 0.95);
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: linear-gradient(135deg, #121212, #1a1a2f);
+            color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding-top: 50px;
+        }
+
+        .container {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 14px;
+            width: 450px;
+            box-shadow: 0 0 25px var(--neon-yellow), 0 0 40px var(--neon-cyan);
+        }
+
+        h2 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--neon-yellow);
+            text-shadow: 0 0 15px var(--neon-yellow), 0 0 30px var(--neon-cyan);
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        a.button {
+            display: inline-block;
+            background: var(--neon-cyan);
+            color: #0d0d0d;
+            padding: 10px 22px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-bottom: 25px;
+            transition: all 0.3s ease;
+        }
+
+        a.button:hover {
+            background: var(--neon-yellow);
+            color: #121212;
+            box-shadow: 0 0 15px var(--neon-yellow), 0 0 25px var(--neon-cyan);
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .participant {
+            display: flex;
+            align-items: center;
+            padding: 10px 12px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border: 2px solid var(--neon-cyan);
+            transition: transform 0.2s, box-shadow 0.3s, background 0.3s;
+            cursor: pointer;
+        }
+
+        .participant:hover {
+            transform: scale(1.03);
+            background: #262640;
+            box-shadow: 0 0 15px var(--neon-yellow), 0 0 25px var(--neon-cyan);
+        }
+
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-right: 12px;
+            accent-color: var(--neon-yellow);
+            cursor: pointer;
+        }
+
+        input[type="submit"] {
+            margin-top: 20px;
+            padding: 14px;
+            background: linear-gradient(45deg, var(--neon-yellow), var(--neon-cyan));
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.3s;
+        }
+
+        input[type="submit"]:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px var(--neon-yellow), 0 0 35px var(--neon-cyan);
+        }
+
+        @media screen and (max-width: 500px) {
+            .container {
+                width: 90%;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Remove Participants from: {{ tournament.tname }}</h2>
+    <a href="/host_dashboard" class="button">⬅ Back to Dashboard</a>
+
+    <form method="POST">
+        {% for p in participants %}
+        <label class="participant">
+            <input type="checkbox" name="participants" value="{{ p.id }}"> {{ p.username }}
+        </label>
+        {% endfor %}
+
+        <input type="submit" value="Remove Selected Participants">
+    </form>
+</div>
+
+</body>
+</html>
